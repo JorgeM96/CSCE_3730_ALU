@@ -1,0 +1,379 @@
+User logic ALU Code:
+
+Added signals - 
+
+signal R0,R1,R2,R3,R4,R5,R6,R7       : std_logic_vector(31 downto 0); -- Registers and input values
+signal a, b         : std_logic_vector(31 downto 0); -- value for registers
+
+Case statement for ALU:
+
+            case slv_reg2 (11 downto 8) is  --case s is
+               
+                   when "0000" => -- Load operation
+                  
+                      case slv_reg2 (6 downto 4) is --case op1 is  -- Selects which register to load input i
+                    
+                        when "000"    => R0 <= slv_reg1;
+                        when "001"    => R1 <= slv_reg1;
+                        when "010"    => R2 <= slv_reg1; 
+                        when "011"    => R3 <= slv_reg1;
+                        when "100"    => R4 <= slv_reg1;
+                        when "101"    => R5 <= slv_reg1;
+                        when "110"    => R6 <= slv_reg1;
+                        when others => R7 <= slv_reg1;
+                       
+                      end case;
+                    
+                      slv_reg0 <= (others => '0');
+                    
+                    when "0001" => -- Performs add
+                  
+                      case slv_reg2 (6 downto 4) is -- Selects which register is operand 1
+                    
+                        when "000"    => a <= R0;
+                        when "001"    => a <= R1;
+                        when "010"    => a <= R2;
+                        when "011"    => a <= R3;
+                        when "100"    => a <= R4;
+                        when "101"    => a <= R5;
+                        when "110"    => a <= R6;
+                        when others => a <= R7;
+                       
+                      end case;
+                  
+                      case slv_reg2 (2 downto 0) is -- Selects which register is operand 2
+                    
+                        when "000"    => b <= R0;
+                        when "001"    => b <= R1;
+                        when "010"    => b <= R2;
+                        when "011"    => b <= R3;
+                        when "100"    => b <= R4;
+                        when "101"    => b <= R5;
+                        when "110"    => b <= R6;
+                        when others => b <= R7;
+                       
+                      end case;
+                           
+                      slv_reg0 <=  a + b;
+                    
+                    when "0010" => -- Performs sub
+                  
+                      case slv_reg2 (6 downto 4) is -- Selects which register is operand 1
+                    
+                        when "000"    => a <= R0;
+                        when "001"    => a <= R1;
+                        when "010"    => a <= R2;
+                        when "011"    => a <= R3;
+                        when "100"    => a <= R4;
+                        when "101"    => a <= R5;
+                        when "110"    => a <= R6;
+                        when others => a <= R7;
+                       
+                      end case;
+                  
+                      case slv_reg2 (2 downto 0) is -- Selects which register is operand 2
+                    
+                        when "000"    => b <= R0;
+                        when "001"    => b <= R1;
+                        when "010"    => b <= R2;
+                        when "011"    => b <= R3;
+                        when "100"    => b <= R4;
+                        when "101"    => b <= R5;
+                        when "110"    => b <= R6;
+                        when others => b <= R7;
+                       
+                      end case;
+                           
+                      slv_reg0 <=  a - b;
+          
+                    when "0011" => -- Performs multiplicaiton
+                  
+                      case slv_reg2 (6 downto 4) is -- Selects which register is operand 1
+                    
+                        when "000"    => a <= R0;
+                        when "001"    => a <= R1;
+                        when "010"    => a <= R2;
+                        when "011"    => a <= R3;
+                        when "100"    => a <= R4;
+                        when "101"    => a <= R5;
+                        when "110"    => a <= R6;
+                        when others => a <= R7;
+                       
+                      end case;
+                  
+                      case slv_reg2 (2 downto 0) is -- Selects which register is operand 2
+                    
+                        when "000"    => b <= R0;
+                        when "001"    => b <= R1;
+                        when "010"    => b <= R2;
+                        when "011"    => b <= R3;
+                        when "100"    => b <= R4;
+                        when "101"    => b <= R5;
+                        when "110"    => b <= R6;
+                        when others => b <= R7;
+                       
+                      end case;
+                           
+                      slv_reg0 <= std_logic_vector(to_unsigned((to_integer(unsigned(a)) * to_integer(unsigned(b))),32)) ;
+          
+                    when "0100" => -- Performs division
+                  
+                      case slv_reg2 (6 downto 4) is -- Selects which register is operand 1
+                    
+                        when "000"    => a <= R0;
+                        when "001"    => a <= R1;
+                        when "010"    => a <= R2;
+                        when "011"    => a <= R3;
+                        when "100"    => a <= R4;
+                        when "101"    => a <= R5;
+                        when "110"    => a <= R6;
+                        when others => a <= R7;
+                       
+                      end case;
+                  
+                      case slv_reg2 (2 downto 0) is -- Selects which register is operand 2
+                    
+                        when "000"    => b <= R0;
+                        when "001"    => b <= R1;
+                        when "010"    => b <= R2;
+                        when "011"    => b <= R3;
+                        when "100"    => b <= R4;
+                        when "101"    => b <= R5;
+                        when "110"    => b <= R6;
+                        when others => b <= R7;
+                       
+                      end case;
+                           
+                      slv_reg0 <= std_logic_vector(to_unsigned(to_integer(unsigned(a)) / to_integer(unsigned(b)),32));
+          
+                    when "0101" =>  -- performs less than
+                    
+                      case slv_reg2 (6 downto 4) is -- Selects which register is operand 1
+                      
+                       when "000"    => a <= R0;
+                       when "001"    => a <= R1;
+                       when "010"    => a <= R2;
+                       when "011"    => a <= R3;
+                       when "100"    => a <= R4;
+                       when "101"    => a <= R5;
+                       when "110"    => a <= R6;
+                       when others => a <= R7;
+                      
+                      end case;
+                      
+                      case slv_reg2 (2 downto 0) is -- Selects which register is operand 2
+                      
+                       when "000"    => b <= R0;
+                       when "001"    => b <= R1;
+                       when "010"    => b <= R2;
+                       when "011"    => b <= R3;
+                       when "100"    => b <= R4;
+                       when "101"    => b <= R5;
+                       when "110"    => b <= R6;
+                       when others => b <= R7;
+                      
+                      end case;
+          
+                      if(a < b) then
+                          -- True
+                          slv_reg0 <= "00000000000000000000000000000100";
+                      else
+                          -- False
+                          slv_reg0 <= "00000000000000000000000000000000";
+                      end if;
+          
+                    when "0110" =>  --performs greater than
+                    
+                      case slv_reg2 (6 downto 4) is  -- selects which register is operand 1
+                      
+                       when "000"    => a <= R0;
+                       when "001"    => a <= R1;
+                       when "010"    => a <= R2;
+                       when "011"    => a <= R3;
+                       when "100"    => a <= R4;
+                       when "101"    => a <= R5;
+                       when "110"    => a <= R6;
+                       when others => a <= R7;
+                      
+                      end case;
+                      
+                      case slv_reg2 (2 downto 0) is -- selects which register is operand 2
+                      
+                       when "000"    => b <= R0;
+                       when "001"    => b <= R1;
+                       when "010"    => b <= R2;
+                       when "011"    => b <= R3;
+                       when "100"    => b <= R4;
+                       when "101"    => b <= R5;
+                       when "110"    => b <= R6;
+                       when others => b <= R7;
+                       
+                      end case;
+              
+                      if(a > b) then
+                      -- True
+                          slv_reg0 <= "00000000000000000000000000000010";
+                      else
+                          -- False
+                          slv_reg0 <= "00000000000000000000000000000000";
+                      end if;
+              
+                    when "0111" =>  -- performs equal to
+                    
+                      case slv_reg2 (6 downto 4) is  -- selects which register is operand 1
+                                
+                        when "000"    => a <= R0;
+                        when "001"    => a <= R1;
+                        when "010"    => a <= R2;
+                        when "011"    => a <= R3;
+                        when "100"    => a <= R4;
+                        when "101"    => a <= R5;
+                        when "110"    => a <= R6;
+                        when others => a <= R7;
+                        
+                      end case;
+                        
+                      case slv_reg2 (2 downto 0) is -- selects which register is operand 2
+                        
+                        when "000"    => b <= R0;
+                        when "001"    => b <= R1;
+                        when "010"    => b <= R2;
+                        when "011"    => b <= R3;
+                        when "100"    => b <= R4;
+                        when "101"    => b <= R5;
+                        when "110"    => b <= R6;
+                        when others => b <= R7;
+                        
+                      end case;
+                
+                      if(a = b) then
+                          -- True
+                          slv_reg0 <= "00000000000000000000000000000001";
+                      else
+                          -- False
+                          slv_reg0 <= "00000000000000000000000000000000";
+                      end if;
+                      
+                    when "1000" =>  -- performs AND
+                      
+                      case slv_reg2 (6 downto 4) is  -- selects which register is operand 1
+                                          
+                          when "000"    => a <= R0;
+                          when "001"    => a <= R1;
+                          when "010"    => a <= R2;
+                          when "011"    => a <= R3;
+                          when "100"    => a <= R4;
+                          when "101"    => a <= R5;
+                          when "110"    => a <= R6;
+                          when others => a <= R7;
+                          
+                      end case;
+                          
+                      case slv_reg2 (2 downto 0) is -- selects which register is operand 2
+                          
+                          when "000"    => b <= R0;
+                          when "001"    => b <= R1;
+                          when "010"    => b <= R2;
+                          when "011"    => b <= R3;
+                          when "100"    => b <= R4;
+                          when "101"    => b <= R5;
+                          when "110"    => b <= R6;
+                          when others => b <= R7;
+                          
+                      end case;
+                      
+                      slv_reg0 <= (a AND b);
+                      
+                    when "1001" =>  -- performs OR
+                    
+                      case slv_reg2 (6 downto 4) is  -- selects which register is operand 1
+                                          
+                          when "000"    => a <= R0;
+                          when "001"    => a <= R1;
+                          when "010"    => a <= R2;
+                          when "011"    => a <= R3;
+                          when "100"    => a <= R4;
+                          when "101"    => a <= R5;
+                          when "110"    => a <= R6;
+                          when others => a <= R7;
+                          
+                      end case;
+                          
+                      case slv_reg2 (2 downto 0) is -- selects which register is operand 2
+                          
+                          when "000"    => b <= R0;
+                          when "001"    => b <= R1;
+                          when "010"    => b <= R2;
+                          when "011"    => b <= R3;
+                          when "100"    => b <= R4;
+                          when "101"    => b <= R5;
+                          when "110"    => b <= R6;
+                          when others => b <= R7;
+                          
+                      end case;
+                      
+                      slv_reg0 <= (a OR b);
+                      
+                    when "1010" => -- Performs shift left
+                  
+                      case slv_reg2 (6 downto 4) is -- Selects which register is operand 1
+                    
+                        when "000"    => a <= R0;
+                        when "001"    => a <= R1;
+                        when "010"    => a <= R2;
+                        when "011"    => a <= R3;
+                        when "100"    => a <= R4;
+                        when "101"    => a <= R5;
+                        when "110"    => a <= R6;
+                        when others => a <= R7; 
+                       
+                      end case;
+                  
+                      case slv_reg2 (2 downto 4) is -- Selects which register is operand 2
+                    
+                        when "000"    => b <= R0;
+                        when "001"    => b <= R1;
+                        when "010"    => b <= R2;
+                        when "011"    => b <= R3;
+                        when "100"    => b <= R4;
+                        when "101"    => b <= R5;
+                        when "110"    => b <= R6;
+                        when others => b <= R7;
+                       
+                      end case;
+                           
+                      slv_reg0 <= std_logic_vector(shift_left(unsigned(a), to_integer(unsigned(b))));
+          
+                   when "1011" =>  -- performs shift right
+                      
+                     case slv_reg2 (6 downto 4) is -- Selects which register is operand 1
+                             
+                       when "000"    => a <= R0;
+                       when "001"    => a <= R1;
+                       when "010"    => a <= R2;
+                       when "011"    => a <= R3;
+                       when "100"    => a <= R4;
+                       when "101"    => a <= R5;
+                       when "110"    => a <= R6;
+                       when others => a <= R7; 
+                    
+                    end case;
+               
+                    case slv_reg2 (2 downto 4) is -- Selects which register is operand 2
+                 
+                      when "000"    => b <= R0;
+                      when "001"    => b <= R1;
+                      when "010"    => b <= R2;
+                      when "011"    => b <= R3;
+                      when "100"    => b <= R4;
+                      when "101"    => b <= R5;
+                      when "110"    => b <= R6;
+                      when others => b <= R7;
+                    
+                    end case;
+                      
+                      slv_reg0 <= std_logic_vector(shift_right(unsigned(a), to_integer(unsigned(b))));
+                      
+                   when others => -- Do nothing
+                
+                  end case;

@@ -1,0 +1,62 @@
+C Code:
+
+#include <stdio.h>
+#include "platform.h"
+#include "xparameters.h"
+
+
+unsigned int i, j;
+char c;
+
+unsigned int *Reg_0 = (unsigned int *) (XPAR_REG_CORE_0_S00_AXI_BASEADDR + 0);  //slv_reg0
+unsigned int *Reg_1 = (unsigned int *) (XPAR_REG_CORE_0_S00_AXI_BASEADDR + 4);  //slv_reg1
+unsigned int *Reg_2 = (unsigned int *) (XPAR_REG_CORE_0_S00_AXI_BASEADDR + 8);  //slv_reg2
+
+int main()
+{
+    init_platform();
+
+    print("Start Program\n\r");
+    c = getc(stdin); // wait for input to proceed
+
+    //Load values
+    *Reg_2 = 0x00000000;  //select R0
+    *Reg_1 = 0x00000003;  //Load value 3 to R0
+    printf("Operand 1: %d\n",*Reg_1);
+    *Reg_2 = 0x00000010;  //select R1
+    *Reg_1 = 0x00000004;  //Load value 4 to R1
+    printf("Operand 2: %d\n",*Reg_1);
+    printf("\n");
+
+    //Perform all ALU Operations
+    *Reg_2 = 0x00000101;  //Perform R0 + R1, result stored in Reg_0
+     printf("Add Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000201;  //Perform Subtraction, result stored in Reg_0
+    printf("Subtraction Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000301;  //Perform multiplication
+    printf("Multiplication Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000401;  //Perform division
+    printf("Division Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000501;  //Perform Less than
+    printf("Less than Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000601;  //Perform Greater than
+    printf("Greater than Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000701;  //Perform Equal to
+    printf("Equal to Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000801;  //Perform AND
+    printf("AND Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000901;  //Perform OR
+    printf("OR Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000A01;  //Perform Shift Left
+    printf("Shift Left Result: %d\n", *Reg_0);  //output
+    *Reg_2 = 0x00000B01;  //Perform Shift right
+    printf("Shift Right Result: %d\n", *Reg_0);  //output
+
+
+    for (i=0; i<10000; i++)   // wait to send data and to
+      for (j=0; j<10; j++);
+
+
+    printf("\n");
+    return 0;
+}
